@@ -19,17 +19,24 @@ public class CompactTriesTest {
 		Node treeForV = compactTries.getTreeForChar('v');
 		System.out.println(treeForV);
 		List<Node> paths = treeForV.getPaths();
-		assertTrue(paths.size()==2);
-		for(Node n :paths){
+		assertTrue(paths.size() == 2);
+		for (Node n : paths) {
 			assertTrue(n.getText().equals("i") || n.getText().equals("asu"));
 		}
-		
+
 	}
-	
+
 	@Test
 	public void verifySuffixTreeInsertion() throws Exception {
-		Indexer indexer = new Indexer();
+		WordAutoComplete indexer = new WordAutoComplete();
 		indexer.index("vijay");
+		indexer.index("vishal");
+		indexer.index("sundaram");
+		indexer.index("prashant");
+		//indexer.index("house");
+		//indexer.printJsonTree();
+
+		System.out.println(indexer.suggest("s"));
 	}
 
 }

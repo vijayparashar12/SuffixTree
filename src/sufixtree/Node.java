@@ -70,7 +70,7 @@ public class Node {
 		StringBuilder s = new StringBuilder();
 		s.append("{");
 		s.append("\"text\": ").append("\"").append(text).append("\",");
-		s.append("\"index\": ").append(index).append("\"");
+		s.append("\"index\": ").append(index);
 		if(hasPaths()){
 			s.append(",");
 			s.append("\"paths\": ").append(paths);
@@ -81,5 +81,11 @@ public class Node {
 	
 	public boolean hasPaths(){
 		return paths != null && paths.size() > 0;
+	}
+
+	public void trace(String query) {
+		if(query.charAt(0)==this.startsWith){
+			
+		}
 	}
 }
