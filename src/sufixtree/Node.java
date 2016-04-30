@@ -83,9 +83,34 @@ public class Node {
 		return paths != null && paths.size() > 0;
 	}
 
-	public void trace(String query) {
-		if(query.charAt(0)==this.startsWith){
-			
+	public Node match(String query) {
+		return recursiveMatch(this,query);
+	}
+
+	private Node recursiveMatch(Node node, String query) {
+		Node match = null;
+		if (node != null) {
+			String nodeText = node.getText();
+			boolean matched = true;
+			if (query.length() > nodeText.length()) {
+				for (int i = 0; i < node.getText().length(); i++) {
+					if (query.charAt(i) != nodeText.charAt(i)) {
+						matched = true;
+						break;
+					}
+				}
+				if (!matched) {
+					match = null;
+				} else {
+					Node next = node.getPathForCharacter(query.charAt(nodeText.length()));
+					match = recursiveMatch(next, query.substring(nodeText.length()));
+				}
+			} else {
+				if (nodeText.startsWith(query)) {
+					match = node;
+				}
+			}
 		}
+		return match;
 	}
 }

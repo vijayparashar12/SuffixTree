@@ -37,12 +37,8 @@ public class CompactTries {
 	}
 
 	/**
-	 * This Method will add all the suffix to the tries data structure.
-	 * vijay\0
-	 * ijay\0
-	 * jay\0
-	 * ay\0
-	 * y\0
+	 * This Method will add all the suffix to the tries data structure. vijay\0
+	 * ijay\0 jay\0 ay\0 y\0
 	 */
 	public void addSufixToTries(String word) {
 		if (word != null) {
@@ -105,11 +101,13 @@ public class CompactTries {
 		}
 
 		if (!found) {
-			word = word.replaceAll(nodeText, "");
+			word = word.substring(nodeText.length());
+			// word.replaceAll(nodeText, "");
 			Node pathForCharacter = node.getPathForCharacter(word.charAt(0));
 			if (pathForCharacter == null) {
 				pathForCharacter = new Node();
 				pathForCharacter.setText(word);
+				pathForCharacter.setIndex(index);
 				node.addPath(pathForCharacter);
 			} else {
 				insertToExistingNode(pathForCharacter, word);
@@ -144,19 +142,23 @@ public class CompactTries {
 		Set<String> response = new TreeSet<String>();
 		if (query != null && query != "") {
 			Node initialNode = getTreeForChar(query.charAt(0));
-			initialNode.trace(query);
-			addToResponse(initialNode, response);
+			if (initialNode != null) {
+				Node match = initialNode.match(query);
+				if (match != null) {
+					addToResponse(match, response);
+				}
+			}
 		}
 		return response;
 	}
 
 	private void addToResponse(Node node, Set<String> response) {
-		if(node != null){
-			if(node.getIndex() != 0){
+		if (node != null) {
+			if (node.getIndex() != 0) {
 				response.add(wordIndex.get(node.getIndex()));
 			}
-			if(node.getPaths() != null){
-				for(Node path: node.getPaths()){
+			if (node.getPaths() != null) {
+				for (Node path : node.getPaths()) {
 					addToResponse(path, response);
 				}
 			}
